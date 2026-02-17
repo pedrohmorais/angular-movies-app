@@ -1,67 +1,39 @@
 <div class="movie-details-container">
-  <div *ngIf="isLoading" class="loading">
+  <div *ngIf="isLoading()" class="loading">
     <mat-spinner diameter="50"></mat-spinner>
   </div>
 
-  <div *ngIf="!isLoading && movieDetails" class="movie-details">
+  <div *ngIf="!isLoading() && movieDetails()" class="movie-details">
+    <nav class="breadcrumb">
+      <a routerLink="/">Home</a> / <span>Detalhes do Filme</span>
+    </nav>
     <div class="movie-header">
       <div class="poster-section">
-        <img *ngIf="movieDetails.poster_path" [src]="getImageUrl(movieDetails.poster_path)" [alt]="movieDetails.title" class="poster" />
-        <div *ngIf="!movieDetails.poster_path" class="no-poster">Sem imagem</div>
+        <img *ngIf="movieDetails()?.poster_path" [src]="getImageUrl(movieDetails()?.poster_path)" [alt]="movieDetails()?.title" class="poster" />
+        <div *ngIf="!movieDetails()?.poster_path" class="no-poster">Sem imagem</div>
       </div>
 
       <div class="info-section">
-        <h2>{{ movieDetails.title }}</h2>
-        <p class="release-date">Lançamento: {{ movieDetails.release_date | date: 'dd/MM/yyyy' }}</p>
-        <p class="runtime" *ngIf="movieDetails.runtime > 0">Duração: {{ movieDetails.runtime }} minutos</p>
+        <h2>{{ movieDetails()?.title }}</h2>
+        <p class="release-date">Lançamento: {{ movieDetails()?.release_date | date: 'dd/MM/yyyy' }}</p>
+        <p class="runtime" *ngIf="movieDetails()!.runtime > 0">Duração: {{ movieDetails()?.runtime }} minutos</p>
 
         <div class="rating">
-          <span class="vote-average">⭐ {{ movieDetails.vote_average.toFixed(1) }}/10</span>
-          <span class="vote-count">({{ movieDetails.vote_count }} votos)</span>
-        </div>
-
-        <div class="budget-revenue" *ngIf="movieDetails.budget > 0 || movieDetails.revenue > 0">
-          <div class="budget" *ngIf="movieDetails.budget > 0">
-            <strong>Orçamento:</strong> {{ formatCurrency(movieDetails.budget) }}
-          </div>
-          <div class="revenue" *ngIf="movieDetails.revenue > 0">
-            <strong>Receita:</strong> {{ formatCurrency(movieDetails.revenue) }}
-          </div>
-        </div>
-
-        <div class="languages">
-          <strong>Idiomas:</strong> {{ getLanguagesText() }}
+          <span class="vote-average">⭐ {{ movieDetails()!.vote_average.toFixed(1) }}/10</span>
+          <span class="vote-count">({{ movieDetails()?.vote_count }} votos)</span>
         </div>
       </div>
     </div>
 
-    <div class="movie-overview">
+    <div class="movie-details-body">
       <h3>Sinopse</h3>
-      <p>{{ movieDetails.overview }}</p>
-    </div>
+      <p>{{ movieDetails()?.overview }}</p>
 
-    <div class="rating-section">
-      <h3>Avaliar este filme</h3>
-      <div class="rating-input">
-        <input
-          type="range"
-          min="0"
-          max="10"
-          step="0.5"
-          [(ngModel)]="userRating"
-          class="rating-slider"
-          [disabled]="isRatingSubmitted"
-        />
-        <span class="rating-value">{{ userRating }}</span>
-      </div>
-      <button
-        mat-raised-button
-        color="accent"
-        [disabled]="userRating === 0 || isRatingSubmitted"
-        (click)="onRateMovie()"
-      >
-        {{ isRatingSubmitted ? '✓ Avaliação Enviada' : 'Enviar Avaliação' }}
-      </button>
+      <h3>Informações Adicionais</h3>
+      <p>Orçamento: {{ formatCurrency(movieDetails()?.budget) }}</p>
+      <p>Receita: {{ formatCurrency(movieDetails()?.revenue) }}</p>
+      <p>Idiomas: {{ getLanguagesText() }}</p>
     </div>
   </div>
 </div>
+

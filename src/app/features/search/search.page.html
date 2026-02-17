@@ -45,7 +45,7 @@
     </div>
 
     <div class="movies-grid">
-      <mat-card class="movie-card" *ngFor="let movie of movies">
+      <mat-card class="movie-card" *ngFor="let movie of movies" [routerLink]="['/' + APP_ROUTES.MOVIE_DETAILS, movie.id]">
         <div class="movie-checkbox">
           <mat-checkbox
             [checked]="isMovieSelected(movie.id)"
@@ -53,7 +53,7 @@
           ></mat-checkbox>
         </div>
 
-        <div class="movie-poster-container" (click)="viewMovieDetails(movie)">
+        <div class="movie-poster-container">
           <img
             *ngIf="movie.poster_path"
             [src]="getImageUrl(movie.poster_path)"
@@ -66,14 +66,14 @@
         </div>
 
         <mat-card-content class="movie-info">
-          <h3 class="movie-title" (click)="viewMovieDetails(movie)">{{ movie.title }}</h3>
+          <h3 class="movie-title">{{ movie.title }}</h3>
           <div class="vote-average">
             <span class="vote-badge">⭐ {{ movie.vote_average.toFixed(1) }}</span>
           </div>
         </mat-card-content>
 
         <mat-card-actions>
-          <button mat-stroked-button color="primary" (click)="viewMovieDetails(movie)">
+          <button mat-stroked-button color="primary">
             Detalhes
           </button>
         </mat-card-actions>

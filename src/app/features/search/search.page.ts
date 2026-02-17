@@ -10,7 +10,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -19,6 +19,7 @@ import { SearchValidatorDirective } from '../../shared/directives/search-validat
 import { Movie } from '../../shared/models';
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 import { AddToCollectionDialogComponent } from '../collections/components/add-to-collection-dialog.component';
+import { APP_ROUTES } from '../../app.routes.constants';
 
 @Component({
   selector: 'app-search-page',
@@ -28,6 +29,7 @@ import { AddToCollectionDialogComponent } from '../collections/components/add-to
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
@@ -49,6 +51,7 @@ export class SearchPage implements OnInit, OnDestroy {
   pageSize = 10;
   totalResults = 0;
   hasSearched = false;
+  readonly APP_ROUTES = APP_ROUTES;
 
   private destroy$ = new Subject<void>();
   private searchSubject$ = new Subject<string>();
@@ -138,14 +141,6 @@ export class SearchPage implements OnInit, OnDestroy {
           }
         });
     }
-  }
-
-  viewMovieDetails(movie: Movie): void {
-    this.dialog.open(MovieDetailsComponent, {
-      width: '80%',
-      maxWidth: '900px',
-      data: { movieId: movie.id }
-    });
   }
 
   toggleMovieSelection(movieId: number): void {
