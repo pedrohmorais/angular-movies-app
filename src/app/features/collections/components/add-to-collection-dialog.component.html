@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Adicionar a Coleção</h2>
+
+<mat-dialog-content>
+  <p class="movie-count">
+    Adicionando {{ data.movies.length }} filme(s) à(s) seguinte(s) coleção(ões):
+  </p>
+
+  <mat-list>
+    <mat-list-item *ngFor="let collection of collections" class="collection-item">
+      <mat-checkbox
+        [checked]="isCollectionSelected(collection.id)"
+        (change)="toggleCollection(collection.id)"
+      >
+        <div class="collection-info">
+          <span class="collection-title">{{ collection.title }}</span>
+          <span class="collection-count">({{ collection.movies?.length || 0 }} filmes)</span>
+        </div>
+      </mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+
+  <p *ngIf="collections.length === 0" class="no-collections">
+    Nenhuma coleção criada ainda. Crie uma coleção antes de adicionar filmes.
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="selectedCollectionIds.size === 0"
+    (click)="addToSelectedCollections()"
+  >
+    Adicionar
+  </button>
+</mat-dialog-actions>
