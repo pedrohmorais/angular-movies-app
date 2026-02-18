@@ -10,16 +10,14 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { MovieApiService } from '../../core/services/movie-api.service';
 import { SearchValidatorDirective } from '../../shared/directives/search-validator.directive';
 import { Movie } from '../../shared/models';
-import { MovieDetailsComponent } from '../movie-details/movie-details.component';
+import { MovieDetailsDialogComponent } from '../movie-details/movie-details-dialog.component';
 import { AddToCollectionDialogComponent } from '../collections/components/add-to-collection-dialog.component';
-import { APP_ROUTES } from '../../app.routes.constants';
 
 @Component({
   selector: 'app-search-page',
@@ -29,7 +27,6 @@ import { APP_ROUTES } from '../../app.routes.constants';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
@@ -51,7 +48,6 @@ export class SearchPage implements OnInit, OnDestroy {
   pageSize = 10;
   totalResults = 0;
   hasSearched = false;
-  readonly APP_ROUTES = APP_ROUTES;
 
   private destroy$ = new Subject<void>();
   private searchSubject$ = new Subject<string>();
@@ -59,7 +55,6 @@ export class SearchPage implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private movieApiService: MovieApiService,
-    private router: Router,
     private dialog: MatDialog
   ) {
     this.initializeForm();
@@ -167,6 +162,15 @@ export class SearchPage implements OnInit, OnDestroy {
     });
 
     this.selectedMovies.clear();
+  }
+
+  openMovieDetails(movieId: number): void {
+    this.dialog.open(MovieDetailsDialogComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      data: { movieId }
+    });
   }
 
   getImageUrl(posterPath: string | null): string {

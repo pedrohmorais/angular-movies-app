@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Movie } from '../../../shared/models';
+import { MovieDetailsDialogComponent } from '../../movie-details/movie-details-dialog.component';
 
 @Component({
   selector: 'app-collection-card',
   standalone: true,
+  imports: [],
   template: `
     <div class="movie-card" (click)="goToDetails()">
       <img [src]="movie.poster_path" alt="{{ movie.title }} poster" />
@@ -38,9 +40,14 @@ import { Movie } from '../../../shared/models';
 export class CollectionCardComponent {
   @Input() movie!: Movie;
 
-  constructor(private router: Router) {}
+  private readonly dialog = inject(MatDialog);
 
   goToDetails(): void {
-    this.router.navigate(['/movie-details', this.movie.id]);
+    this.dialog.open(MovieDetailsDialogComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      data: { movieId: this.movie.id }
+    });
   }
 }

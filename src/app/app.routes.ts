@@ -15,12 +15,6 @@ export const routes: Routes = [
         .then(m => m.COLLECTIONS_ROUTES)
   },
   {
-    path: `${APP_ROUTES.MOVIE_DETAILS}/:movieId`,
-    loadComponent: () =>
-      import('./features/movie-details/movie-details.component')
-        .then(m => m.MovieDetailsComponent)
-  },
-  {
     path: '**',
     redirectTo: APP_ROUTES.HOME
   }

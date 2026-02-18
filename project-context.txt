@@ -27,8 +27,8 @@ b. This page must be opened into a popup.
 c. This page must fetch and display the following movie details: title, overview,
 poster_path, budget, release_date, revenue, vote_average, vote_count,
 spoken_languages
-d. User must be able to post a rating for this movie. In order to accomplish this task,
-you need to get the sessionId for a guest user.
+d. User must be able to post a rating(api https://developer.themoviedb.org/reference/movie-add-rating) for this movie. In order to accomplish this task,
+you need to get the sessionId for a guest user (api https://developer.themoviedb.org/reference/authentication-create-guest-session).
 3. Movies Collections Page
 a. This page must contain all the available movies collections of the user (store them
 in browser’s local storage), each collection contains a list of movies.

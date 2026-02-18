@@ -42,7 +42,15 @@ export class MovieApiService {
       .set('api_key', this.API_KEY)
       .set('guest_session_id', sessionId);
 
-    return this.http.post(`${this.API_BASE_URL}/movie/${movieId}/rating`, { value: rating }, { params });
+    const payload = { value: rating };
+    
+    console.log('rateMovie - payload:', { movieId, sessionId, payload });
+
+    return this.http.post<any>(
+      `${this.API_BASE_URL}/movie/${movieId}/rating`,
+      payload,
+      { params }
+    );
   }
 
   getImageUrl(posterPath: string): string {
