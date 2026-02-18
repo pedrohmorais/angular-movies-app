@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 
 import { CollectionsService } from '../services/collections.service';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-collection-create-page',
@@ -24,7 +25,8 @@ import { CollectionsService } from '../services/collections.service';
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    NavbarComponent
   ]
 })
 export class CollectionCreatePage {

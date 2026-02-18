@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="navbar-content">
+    <div class="navbar-brand">
+      <mat-icon class="brand-icon">local_movies</mat-icon>
+      <span class="brand-text">Meus Filmes</span>
+    </div>
+    
+    <nav class="navbar-menu">
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>search</mat-icon>
+        <span>Buscar Filmes</span>
+      </a>
+      <a mat-button routerLink="/collections" routerLinkActive="active">
+        <mat-icon>collections</mat-icon>
+        <span>Coleções</span>
+      </a>
+    </nav>
+  </div>
+</mat-toolbar>

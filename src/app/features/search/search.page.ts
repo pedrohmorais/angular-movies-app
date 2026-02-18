@@ -18,6 +18,7 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MovieApiService } from '../../core/services/movie-api.service';
 import { SearchValidatorDirective } from '../../shared/directives/search-validator.directive';
 import { Movie } from '../../shared/models';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { MovieDetailsDialogComponent } from '../movie-details/movie-details-dialog.component';
 import { AddToCollectionDialogComponent } from '../collections/components/add-to-collection-dialog.component';
 
@@ -39,6 +40,7 @@ import { AddToCollectionDialogComponent } from '../collections/components/add-to
     MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
+    NavbarComponent,
     SearchValidatorDirective
   ]
 })

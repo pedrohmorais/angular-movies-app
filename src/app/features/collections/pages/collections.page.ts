@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CollectionsService } from '../services/collections.service';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import type { Collection } from '../../../shared/models';
 
 @Component({
@@ -22,7 +23,8 @@ import type { Collection } from '../../../shared/models';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NavbarComponent
   ]
 })
 export class CollectionsPage implements OnInit {

@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CollectionsService } from '../services/collections.service';
 import { MovieDetailsDialogComponent } from '../../movie-details/movie-details-dialog.component';
 import { MovieApiService } from '../../../core/services/movie-api.service';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import type { Collection, Movie } from '../../../shared/models';
 
 @Component({
@@ -24,7 +25,8 @@ import type { Collection, Movie } from '../../../shared/models';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NavbarComponent
   ]
 })
 export class CollectionDetailsPage implements OnInit {
