@@ -1,13 +1,10 @@
 import { Component, OnInit, OnDestroy, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -26,13 +23,10 @@ interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    FormsModule,
     MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatSliderModule,
-    MatFormFieldModule,
-    MatInputModule
+    MatIconModule
   ]
 })
 export class MovieDetailsDialogComponent implements OnInit, OnDestroy {
@@ -105,6 +99,10 @@ export class MovieDetailsDialogComponent implements OnInit, OnDestroy {
       style: 'currency',
       currency: 'USD'
     }).format(value);
+  }
+
+  setRating(stars: number): void {
+    this.userRating.set(stars);
   }
 
   submitRating(): void {

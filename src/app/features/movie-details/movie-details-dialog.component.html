@@ -56,36 +56,43 @@
           }
 
           @if (!ratingSubmitted()) {
-            <div class="rating-input">
-              <mat-form-field appearance="outline" class="rating-slider-field">
-                <mat-label>Sua nota (0.5 a 10)</mat-label>
-                <input 
-                  matInput 
-                  type="number" 
-                  [ngModel]="userRating()"
-                  (ngModelChange)="userRating.set($event)"
-                  [disabled]="isSubmittingRating()"
-                  min="0.5" 
-                  max="10" 
-                  step="0.5"
-                  placeholder="Digite uma nota de 0.5 a 10"
-                />
-              </mat-form-field>
-              
-              <button 
-                mat-raised-button 
-                color="primary"
-                (click)="submitRating()"
-                [disabled]="isSubmittingRating() || userRating() <= 0"
-              >
-                @if (isSubmittingRating()) {
-                  <mat-spinner diameter="20" strokeWidth="2"></mat-spinner>
-                  Enviando...
-                } @else {
-                  Enviar Avaliação
+            <div class="rating-stars-container">
+              <div class="stars-wrapper">
+                @for (star of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track star) {
+                  <button
+                    type="button"
+                    mat-icon-button
+                    class="star-btn"
+                    [class.filled]="userRating() >= star"
+                    (click)="setRating(star)"
+                    [disabled]="isSubmittingRating()"
+                  >
+                    <mat-icon>
+                      {{ userRating() >= star ? 'star' : 'star_outline' }}
+                    </mat-icon>
+                  </button>
                 }
-              </button>
+              </div>
+              
+              <div class="rating-value">
+                {{ userRating() > 0 ? userRating() + '/10' : 'Selecione uma nota' }}
+              </div>
             </div>
+            
+            <button 
+              mat-raised-button 
+              color="primary"
+              (click)="submitRating()"
+              [disabled]="isSubmittingRating() || userRating() <= 0"
+              class="submit-rating-btn"
+            >
+              @if (isSubmittingRating()) {
+                <mat-spinner diameter="20" strokeWidth="2"></mat-spinner>
+                Enviando...
+              } @else {
+                Enviar Avaliação
+              }
+            </button>
           }
         </div>
       </div>
