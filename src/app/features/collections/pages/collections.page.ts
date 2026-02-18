@@ -1,17 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { CollectionsService } from '../services/collections.service';
+import type { Collection } from '../../../shared/models';
 
 @Component({
   selector: 'app-collections-page',
   standalone: true,
-  template: `
-    <h1>My Collections</h1>
-    <button mat-raised-button color="primary" routerLink="/collections/create">
-      Create Collection
-    </button>
-  `,
-  imports: [CommonModule, MatCardModule, MatButtonModule]
+  templateUrl: './collections.page.html',
+  styleUrl: './collections.page.scss',
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatTooltipModule
+  ]
 })
-export class CollectionsPage {}
+export class CollectionsPage implements OnInit {
+  collections = signal<Collection[]>([]);
+  isEmpty = signal(true);
+
+  constructor(
+    private collectionsService: CollectionsService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCollections();
+  }
+
+  private loadCollections(): void {
+    const collections = this.collectionsService.getAll();
+    this.collections.set(collections);
+    this.isEmpty.set(collections.length === 0);
+  }
+
+  createCollection(): void {
+    this.router.navigate(['/collections/create']);
+  }
+
+  viewCollection(collectionId: string): void {
+    this.router.navigate(['/collections', collectionId]);
+  }
+
+  deleteCollection(id: string, event: Event): void {
+    event.stopPropagation();
+    if (confirm('Tem certeza que deseja deletar esta coleção?')) {
+      this.collectionsService.delete(id);
+      this.loadCollections();
+    }
+  }
+
+  getMovieCount(collection: Collection): number {
+    return collection.movies?.length || 0;
+  }
+}
+

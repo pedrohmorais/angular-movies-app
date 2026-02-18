@@ -1,0 +1,74 @@
+<div class="collection-details-container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="backToCollections()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ collection()?.title || 'Coleção' }}</h1>
+    <span class="spacer"></span>
+  </mat-toolbar>
+
+  @if (collection()) {
+    <div class="collection-header">
+      <h2>{{ collection()!.title }}</h2>
+      <p class="description">{{ collection()!.description }}</p>
+    </div>
+
+    <div class="collection-content">
+      @if (isEmpty()) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">movie</mat-icon>
+          <h3>Nenhum filme nesta coleção</h3>
+          <p>Adicione filmes a esta coleção na página de busca</p>
+          <button mat-raised-button color="primary" (click)="backToCollections()">
+            Voltar para Coleções
+          </button>
+        </div>
+      }
+
+      @if (!isEmpty()) {
+        <div class="movies-grid">
+          @for (movie of collection()!.movies; track movie.id) {
+            <mat-card class="movie-card" (click)="openMovieDetails(movie.id)">
+              <div class="movie-poster-container">
+                @if (movie.poster_path) {
+                  <img [src]="getImageUrl(movie.poster_path)" [alt]="movie.title" class="movie-poster" />
+                }
+                @if (!movie.poster_path) {
+                  <div class="no-poster">
+                    <mat-icon>image_not_supported</mat-icon>
+                  </div>
+                }
+                <div class="remove-overlay">
+                  <button
+                    mat-fab
+                    color="warn"
+                    (click)="removeMovie(movie.id, $event)"
+                    matTooltip="Remover da coleção"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <mat-card-content>
+                <h3 class="movie-title">{{ movie.title }}</h3>
+                <p class="movie-year">
+                  {{ movie.release_date | date: 'yyyy' }}
+                </p>
+                <div class="movie-rating">
+                  <span class="rating-badge">⭐ {{ movie.vote_average.toFixed(1) }}</span>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-stroked-button color="primary">
+                  Ver Detalhes
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,60 @@
+<div class="collections-container">
+  <mat-toolbar color="primary">
+    <h1>Minhas Coleções</h1>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="createCollection()">
+      <mat-icon>add</mat-icon>
+      Nova Coleção
+    </button>
+  </mat-toolbar>
+
+  <div class="collections-content">
+    @if (isEmpty()) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">collections</mat-icon>
+        <h2>Nenhuma coleção criada</h2>
+        <p>Comece criando uma nova coleção para organizar seus filmes favoritos</p>
+        <button mat-raised-button color="primary" (click)="createCollection()">
+          Criar Primeira Coleção
+        </button>
+      </div>
+    }
+
+    @if (!isEmpty()) {
+      <div class="collections-grid">
+        @for (collection of collections(); track collection.id) {
+          <mat-card class="collection-card" (click)="viewCollection(collection.id)">
+            <div class="card-header">
+              <mat-icon class="collection-icon">collections_bookmark</mat-icon>
+              <h3>{{ collection.title }}</h3>
+            </div>
+
+            <mat-card-content>
+              <p class="description">{{ collection.description }}</p>
+              <div class="collection-stats">
+                <span class="stat">
+                  <mat-icon>movie</mat-icon>
+                  {{ getMovieCount(collection) }} filme(s)
+                </span>
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-stroked-button color="primary">
+                Ver Coleção
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteCollection(collection.id, $event)"
+                matTooltip="Deletar coleção"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    }
+  </div>
+</div>
