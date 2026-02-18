@@ -1,6 +1,11 @@
 <div class="search-container">
   <mat-toolbar color="primary">
     <h1>Buscar Filmes</h1>
+    <span class="spacer"></span>
+    <button mat-raised-button (click)="createNewCollection()" class="create-collection-btn">
+      <mat-icon>add</mat-icon>
+      Nova Coleção
+    </button>
   </mat-toolbar>
 
   <div class="search-form-container">

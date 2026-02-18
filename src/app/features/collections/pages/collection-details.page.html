@@ -19,9 +19,16 @@
           <mat-icon class="empty-icon">movie</mat-icon>
           <h3>Nenhum filme nesta coleção</h3>
           <p>Adicione filmes a esta coleção na página de busca</p>
-          <button mat-raised-button color="primary" (click)="backToCollections()">
-            Voltar para Coleções
-          </button>
+          <div class="empty-state-actions">
+            <button mat-raised-button color="primary" (click)="goToSearch()">
+              <mat-icon>search</mat-icon>
+              Buscar Filmes
+            </button>
+            <button mat-stroked-button (click)="backToCollections()">
+              <mat-icon>arrow_back</mat-icon>
+              Voltar para Coleções
+            </button>
+          </div>
         </div>
       }
 

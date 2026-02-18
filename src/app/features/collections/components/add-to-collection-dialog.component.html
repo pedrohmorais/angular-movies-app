@@ -22,9 +22,15 @@
   </mat-list>
 
   @if (collections.length === 0) {
-    <p class="no-collections">
-      Nenhuma coleção criada ainda. Crie uma coleção antes de adicionar filmes.
-    </p>
+    <div class="no-collections-container">
+      <p class="no-collections">
+        Nenhuma coleção criada ainda. Crie uma coleção antes de adicionar filmes.
+      </p>
+      <button mat-raised-button color="primary" (click)="createNewCollection()" class="create-btn">
+        <mat-icon>add</mat-icon>
+        Criar Nova Coleção
+      </button>
+    </div>
   }
 </mat-dialog-content>
 
@@ -33,7 +39,7 @@
   <button
     mat-raised-button
     color="primary"
-    [disabled]="selectedCollectionIds.size === 0"
+    [disabled]="selectedCollectionIds.size === 0 || collections.length === 0"
     (click)="addToSelectedCollections()"
   >
     Adicionar

@@ -59,6 +59,10 @@ export class CollectionDetailsPage implements OnInit {
     this.router.navigate(['/collections']);
   }
 
+  goToSearch(): void {
+    this.router.navigate(['/']);
+  }
+
   removeMovie(movieId: number, event: Event): void {
     event.stopPropagation();
     if (!this.collectionId) return;

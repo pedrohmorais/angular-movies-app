@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +11,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -23,7 +25,7 @@ import { AddToCollectionDialogComponent } from '../collections/components/add-to
   selector: 'app-search-page',
   standalone: true,
   templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
+  styleUrl: './search.page.scss',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -36,6 +38,7 @@ import { AddToCollectionDialogComponent } from '../collections/components/add-to
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatIconModule,
     SearchValidatorDirective
   ]
 })
@@ -55,7 +58,8 @@ export class SearchPage implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private movieApiService: MovieApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.initializeForm();
   }
@@ -178,5 +182,9 @@ export class SearchPage implements OnInit, OnDestroy {
       return 'assets/placeholder.png';
     }
     return this.movieApiService.getImageUrl(posterPath);
+  }
+
+  createNewCollection(): void {
+    this.router.navigate(['/collections/create']);
   }
 }
