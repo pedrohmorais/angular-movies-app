@@ -14,87 +14,106 @@
           (input)="onSearchChange($event.target.value)"
           placeholder="Digite o nome do filme (mínimo 3 caracteres, apenas letras e números)"
         />
-        <mat-error *ngIf="searchForm.get('searchQuery')?.hasError('minLength')">
-          Mínimo 3 caracteres
-        </mat-error>
-        <mat-error *ngIf="searchForm.get('searchQuery')?.hasError('alphanumeric')">
-          Apenas letras e números permitidos
-        </mat-error>
+        @if (searchForm.get('searchQuery')?.hasError('minLength')) {
+          <mat-error>
+            Mínimo 3 caracteres
+          </mat-error>
+        }
+        @if (searchForm.get('searchQuery')?.hasError('alphanumeric')) {
+          <mat-error>
+            Apenas letras e números permitidos
+          </mat-error>
+        }
       </mat-form-field>
     </form>
   </div>
 
-  <div class="loading-container" *ngIf="isLoading">
-    <mat-spinner diameter="50"></mat-spinner>
-  </div>
-
-  <div class="movies-section" *ngIf="!isLoading && hasSearched && movies.length > 0">
-    <div class="selection-toolbar">
-      <span *ngIf="selectedMovies.size > 0" class="selected-count">
-        {{ selectedMovies.size }} filme(s) selecionado(s)
-      </span>
-      <button
-        mat-raised-button
-        color="accent"
-        [disabled]="selectedMovies.size === 0"
-        (click)="addSelectedToCollection()"
-        class="add-to-collection-btn"
-      >
-        Adicionar à Coleção
-      </button>
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
     </div>
+  }
 
-    <div class="movies-grid">
-      <mat-card class="movie-card" *ngFor="let movie of movies" [routerLink]="['/' + APP_ROUTES.MOVIE_DETAILS, movie.id]">
-        <div class="movie-checkbox">
-          <mat-checkbox
-            [checked]="isMovieSelected(movie.id)"
-            (change)="toggleMovieSelection(movie.id)"
-          ></mat-checkbox>
-        </div>
+  @if (!isLoading && hasSearched && movies.length > 0) {
+    <div class="movies-section">
+      <div class="selection-toolbar">
+        @if (selectedMovies.size > 0) {
+          <span class="selected-count">
+            {{ selectedMovies.size }} filme(s) selecionado(s)
+          </span>
+        }
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="selectedMovies.size === 0"
+          (click)="addSelectedToCollection()"
+          class="add-to-collection-btn"
+        >
+          Adicionar à Coleção
+        </button>
+      </div>
 
-        <div class="movie-poster-container">
-          <img
-            *ngIf="movie.poster_path"
-            [src]="getImageUrl(movie.poster_path)"
-            [alt]="movie.title"
-            class="movie-poster"
-          />
-          <div *ngIf="!movie.poster_path" class="no-poster">
-            Sem imagem disponível
-          </div>
-        </div>
+      <div class="movies-grid">
+        @for (movie of movies; track movie.id) {
+          <mat-card class="movie-card" [routerLink]="['/' + APP_ROUTES.MOVIE_DETAILS, movie.id]">
+            <div class="movie-checkbox">
+              <mat-checkbox
+                [checked]="isMovieSelected(movie.id)"
+                (change)="toggleMovieSelection(movie.id)"
+              ></mat-checkbox>
+            </div>
 
-        <mat-card-content class="movie-info">
-          <h3 class="movie-title">{{ movie.title }}</h3>
-          <div class="vote-average">
-            <span class="vote-badge">⭐ {{ movie.vote_average.toFixed(1) }}</span>
-          </div>
-        </mat-card-content>
+            <div class="movie-poster-container">
+              @if (movie.poster_path) {
+                <img
+                  [src]="getImageUrl(movie.poster_path)"
+                  [alt]="movie.title"
+                  class="movie-poster"
+                />
+              }
+              @if (!movie.poster_path) {
+                <div class="no-poster">
+                  Sem imagem disponível
+                </div>
+              }
+            </div>
 
-        <mat-card-actions>
-          <button mat-stroked-button color="primary">
-            Detalhes
-          </button>
-        </mat-card-actions>
-      </mat-card>
+            <mat-card-content class="movie-info">
+              <h3 class="movie-title">{{ movie.title }}</h3>
+              <div class="vote-average">
+                <span class="vote-badge">⭐ {{ movie.vote_average.toFixed(1) }}</span>
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-stroked-button color="primary">
+                Detalhes
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+
+      <mat-paginator
+        [length]="totalResults"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)"
+        aria-label="Selecionar página de filmes"
+        class="paginator"
+      ></mat-paginator>
     </div>
+  }
 
-    <mat-paginator
-      [length]="totalResults"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[5, 10, 20]"
-      (page)="onPageChange($event)"
-      aria-label="Selecionar página de filmes"
-      class="paginator"
-    ></mat-paginator>
-  </div>
+  @if (!isLoading && hasSearched && movies.length === 0) {
+    <div class="empty-state">
+      <p>Nenhum filme encontrado para sua pesquisa.</p>
+    </div>
+  }
 
-  <div class="empty-state" *ngIf="!isLoading && hasSearched && movies.length === 0">
-    <p>Nenhum filme encontrado para sua pesquisa.</p>
-  </div>
-
-  <div class="welcome-state" *ngIf="!hasSearched && !isLoading">
-    <p>Comece a buscar por filmes digitando o nome na barra de pesquisa acima.</p>
-  </div>
+  @if (!hasSearched && !isLoading) {
+    <div class="welcome-state">
+      <p>Comece a buscar por filmes digitando o nome na barra de pesquisa acima.</p>
+    </div>
+  }
 </div>

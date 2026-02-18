@@ -6,22 +6,26 @@
   </p>
 
   <mat-list>
-    <mat-list-item *ngFor="let collection of collections" class="collection-item">
-      <mat-checkbox
-        [checked]="isCollectionSelected(collection.id)"
-        (change)="toggleCollection(collection.id)"
-      >
-        <div class="collection-info">
-          <span class="collection-title">{{ collection.title }}</span>
-          <span class="collection-count">({{ collection.movies?.length || 0 }} filmes)</span>
-        </div>
-      </mat-checkbox>
-    </mat-list-item>
+    @for (collection of collections; track collection.id) {
+      <mat-list-item class="collection-item">
+        <mat-checkbox
+          [checked]="isCollectionSelected(collection.id)"
+          (change)="toggleCollection(collection.id)"
+        >
+          <div class="collection-info">
+            <span class="collection-title">{{ collection.title }}</span>
+            <span class="collection-count">({{ collection.movies?.length || 0 }} filmes)</span>
+          </div>
+        </mat-checkbox>
+      </mat-list-item>
+    }
   </mat-list>
 
-  <p *ngIf="collections.length === 0" class="no-collections">
-    Nenhuma coleção criada ainda. Crie uma coleção antes de adicionar filmes.
-  </p>
+  @if (collections.length === 0) {
+    <p class="no-collections">
+      Nenhuma coleção criada ainda. Crie uma coleção antes de adicionar filmes.
+    </p>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
