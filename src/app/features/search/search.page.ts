@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
@@ -18,7 +19,6 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MovieApiService } from '../../core/services/movie-api.service';
 import { SearchValidatorDirective } from '../../shared/directives/search-validator.directive';
 import { Movie } from '../../shared/models';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { MovieDetailsDialogComponent } from '../movie-details/movie-details-dialog.component';
 import { AddToCollectionDialogComponent } from '../collections/components/add-to-collection-dialog.component';
 
@@ -38,9 +38,9 @@ import { AddToCollectionDialogComponent } from '../collections/components/add-to
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatChipsModule,
     MatDialogModule,
     MatIconModule,
-    NavbarComponent,
     SearchValidatorDirective
   ]
 })
@@ -115,7 +115,7 @@ export class SearchPage implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: (error) => {
-          console.error('Erro ao buscar filmes:', error);
+          console.error('Error searching for movies:', error);
           this.isLoading = false;
           this.movies = [];
         }
@@ -137,7 +137,7 @@ export class SearchPage implements OnInit, OnDestroy {
             this.isLoading = false;
           },
           error: (error) => {
-            console.error('Erro ao buscar filmes:', error);
+            console.error('Error searching for movies:', error);
             this.isLoading = false;
           }
         });

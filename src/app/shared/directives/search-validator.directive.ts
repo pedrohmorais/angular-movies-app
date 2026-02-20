@@ -22,12 +22,12 @@ export class SearchValidatorDirective implements Validator {
 
     const errors: ValidationErrors = {};
 
-    // Validação 1: Mínimo 3 caracteres
+    // Validation 1: Minimum 3 characters
     if (value.length < 3) {
       errors['minLength'] = { requiredLength: 3, actualLength: value.length };
     }
 
-    // Validação 2: Apenas alfanuméricos
+    // Validation 2: Only alphanumeric
     const alphanumericRegex = /^[a-zA-Z0-9\s]*$/;
     if (!alphanumericRegex.test(value)) {
       errors['alphanumeric'] = true;

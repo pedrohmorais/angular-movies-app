@@ -69,7 +69,7 @@ export class CollectionDetailsPage implements OnInit {
     event.stopPropagation();
     if (!this.collectionId) return;
 
-    if (confirm('Tem certeza que deseja remover este filme da coleção?')) {
+    if (confirm('Are you sure you want to remove this movie from the collection?')) {
       this.collectionsService.removeMovieFromCollection(this.collectionId, movieId);
       this.loadCollection();
     }

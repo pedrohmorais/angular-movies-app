@@ -1,61 +1,74 @@
-<app-navbar></app-navbar>
 <div class="collections-container">
-  <mat-toolbar color="primary" class="page-toolbar">
-    <h1>Minhas Coleções</h1>
-    <span class="spacer"></span>
-    <button mat-raised-button color="accent" (click)="createCollection()">
-      <mat-icon>add</mat-icon>
-      Nova Coleção
+  <div class="collections-header">
+    <div>
+      <h1>My Collections</h1>
+      <p class="subtitle">Organize and manage your movie collections</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="createCollection()">
+      <mat-icon>add_circle_outline</mat-icon>
+      New Collection
     </button>
-  </mat-toolbar>
-
-  <div class="collections-content">
-    @if (isEmpty()) {
-      <div class="empty-state">
-        <mat-icon class="empty-icon">collections</mat-icon>
-        <h2>Nenhuma coleção criada</h2>
-        <p>Comece criando uma nova coleção para organizar seus filmes favoritos</p>
-        <button mat-raised-button color="primary" (click)="createCollection()">
-          Criar Primeira Coleção
-        </button>
-      </div>
-    }
-
-    @if (!isEmpty()) {
-      <div class="collections-grid">
-        @for (collection of collections(); track collection.id) {
-          <mat-card class="collection-card" (click)="viewCollection(collection.id)">
-            <div class="card-header">
-              <mat-icon class="collection-icon">collections_bookmark</mat-icon>
-              <h3>{{ collection.title }}</h3>
-            </div>
-
-            <mat-card-content>
-              <p class="description">{{ collection.description }}</p>
-              <div class="collection-stats">
-                <span class="stat">
-                  <mat-icon>movie</mat-icon>
-                  {{ getMovieCount(collection) }} filme(s)
-                </span>
-              </div>
-            </mat-card-content>
-
-            <mat-card-actions>
-              <button mat-stroked-button color="primary">
-                Ver Coleção
-              </button>
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="deleteCollection(collection.id, $event)"
-                matTooltip="Deletar coleção"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        }
-      </div>
-    }
   </div>
+
+  @if (isEmpty()) {
+    <div class="empty-state">
+      <mat-card class="empty-card">
+        <mat-card-content>
+          <mat-icon class="empty-icon">collections_bookmark</mat-icon>
+          <h2>No collections created yet</h2>
+          <p>Create your first collection and start organizing your favorite movies</p>
+          <button mat-raised-button color="primary" (click)="createCollection()">
+            <mat-icon>add</mat-icon>
+            Create First Collection
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+
+  @if (!isEmpty()) {
+    <div class="collections-grid">
+      @for (collection of collections(); track collection.id) {
+        <mat-card class="collection-card" (click)="viewCollection(collection.id)">
+          <mat-card-header class="card-header">
+            <mat-icon class="collection-icon">collections_bookmark</mat-icon>
+          </mat-card-header>
+
+          <mat-card-content>
+            <h2 class="collection-title">{{ collection.title }}</h2>
+            <p class="collection-description">{{ collection.description }}</p>
+            
+            <div class="collection-meta">
+              <div class="stat">
+                <mat-icon>local_movies</mat-icon>
+                <span>{{ getMovieCount(collection) }} movie(s)</span>
+              </div>
+              @if (collection.createdAt) {
+                <div class="stat">
+                  <mat-icon>calendar_today</mat-icon>
+                  <span>{{ collection.createdAt | date: 'dd/MM/yyyy' }}</span>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions class="card-actions">
+            <button mat-stroked-button color="primary" class="view-btn">
+              <mat-icon>arrow_forward</mat-icon>
+              Open
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteCollection(collection.id, $event)"
+              matTooltip="Delete collection"
+              class="delete-btn"
+            >
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
 </div>

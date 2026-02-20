@@ -70,7 +70,7 @@ export class MovieDetailsDialogComponent implements OnInit, OnDestroy {
           this.isLoading.set(false);
         },
         error: (error) => {
-          console.error('Erro ao carregar detalhes do filme:', error);
+          console.error('Error loading movie details:', error);
           this.isLoading.set(false);
         }
       });
@@ -86,15 +86,15 @@ export class MovieDetailsDialogComponent implements OnInit, OnDestroy {
   getLanguagesText(): string {
     const details = this.movieDetails();
     if (!details || !details.spoken_languages) {
-      return 'Não disponível';
+      return 'Not available';
     }
     return details.spoken_languages
       .map(lang => lang.name)
-      .join(', ') || 'Não disponível';
+      .join(', ') || 'Not available';
   }
 
   formatCurrency(value: number | undefined): string {
-    if (!value || value === 0) return 'Não disponível';
+    if (!value || value === 0) return 'Not available';
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'USD'
@@ -109,52 +109,52 @@ export class MovieDetailsDialogComponent implements OnInit, OnDestroy {
     const movieId = this.dialogData?.movieId;
     const rating = this.userRating();
 
-    console.log('Tentando enviar rating:', { movieId, rating });
+    console.log('Attempting to submit rating:', { movieId, rating });
 
     if (!movieId || rating <= 0 || rating > 10) {
-      this.ratingError.set('Por favor, insira uma avaliação válida entre 0.5 e 10.');
-      console.error('Validação falhou. Rating:', rating);
+      this.ratingError.set('Please enter a valid rating between 0.5 and 10.');
+      console.error('Validation failed. Rating:', rating);
       return;
     }
 
     this.isSubmittingRating.set(true);
     this.ratingError.set(null);
 
-    // Obter sessionId se não houver
+    // Get sessionId if not present
     if (!this.sessionId) {
       this.movieApiService.getSessionId()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
             this.sessionId = response.guest_session_id;
-            console.log('SessionId obtido:', this.sessionId);
+            console.log('SessionId obtained:', this.sessionId);
             this.postRating(movieId, rating);
           },
           error: (error) => {
-            console.error('Erro ao obter sessão de guest:', error);
-            this.ratingError.set('Erro ao obter sessão. Tente novamente.');
+            console.error('Error obtaining guest session:', error);
+            this.ratingError.set('Error obtaining session. Try again.');
             this.isSubmittingRating.set(false);
           }
         });
     } else {
-      console.log('Usando sessionId existente:', this.sessionId);
+      console.log('Using existing sessionId:', this.sessionId);
       this.postRating(movieId, rating);
     }
   }
 
   private postRating(movieId: number, rating: number): void {
     if (!this.sessionId) {
-      console.error('Sem sessionId disponível');
+      console.error('No sessionId available');
       return;
     }
 
-    console.log('Enviando rating para API:', { movieId, rating, sessionId: this.sessionId });
+    console.log('Submitting rating to API:', { movieId, rating, sessionId: this.sessionId });
 
     this.movieApiService.rateMovie(movieId, rating, this.sessionId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          console.log('Resposta da API:', response);
+          console.log('API Response:', response);
           this.ratingSubmitted.set(true);
           this.isSubmittingRating.set(false);
           this.userRating.set(0);
@@ -165,10 +165,10 @@ export class MovieDetailsDialogComponent implements OnInit, OnDestroy {
           }, 3000);
         },
         error: (error) => {
-          console.error('Erro ao enviar avaliação:', error);
-          console.error('Status da resposta:', error?.status);
-          console.error('Body da resposta:', error?.error);
-          this.ratingError.set('Erro ao enviar avaliação. Tente novamente.');
+          console.error('Error submitting rating:', error);
+          console.error('Response status:', error?.status);
+          console.error('Response body:', error?.error);
+          this.ratingError.set('Error submitting rating. Try again.');
           this.isSubmittingRating.set(false);
         }
       });

@@ -4,7 +4,7 @@
     <button mat-icon-button (click)="backToCollections()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1>{{ collection()?.title || 'Coleção' }}</h1>
+    <h1>{{ collection()?.title || 'Collection' }}</h1>
     <span class="spacer"></span>
   </mat-toolbar>
 
@@ -18,16 +18,16 @@
       @if (isEmpty()) {
         <div class="empty-state">
           <mat-icon class="empty-icon">movie</mat-icon>
-          <h3>Nenhum filme nesta coleção</h3>
-          <p>Adicione filmes a esta coleção na página de busca</p>
+          <h3>No movies in this collection</h3>
+          <p>Add movies to this collection from the search page</p>
           <div class="empty-state-actions">
             <button mat-raised-button color="primary" (click)="goToSearch()">
               <mat-icon>search</mat-icon>
-              Buscar Filmes
+              Search Movies
             </button>
             <button mat-stroked-button (click)="backToCollections()">
               <mat-icon>arrow_back</mat-icon>
-              Voltar para Coleções
+              Back to Collections
             </button>
           </div>
         </div>
@@ -51,7 +51,7 @@
                     mat-fab
                     color="warn"
                     (click)="removeMovie(movie.id, $event)"
-                    matTooltip="Remover da coleção"
+                    matTooltip="Remove from collection"
                   >
                     <mat-icon>close</mat-icon>
                   </button>
@@ -70,7 +70,7 @@
 
               <mat-card-actions>
                 <button mat-stroked-button color="primary">
-                  Ver Detalhes
+                  View Details
                 </button>
               </mat-card-actions>
             </mat-card>

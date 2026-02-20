@@ -1,125 +1,143 @@
-<app-navbar></app-navbar>
 <div class="search-container">
-  <mat-toolbar color="primary" class="search-toolbar">
-    <h1>Buscar Filmes</h1>
-    <span class="spacer"></span>
-    <button mat-raised-button (click)="createNewCollection()" class="create-collection-btn">
-      <mat-icon>add</mat-icon>
-      Nova Coleção
-    </button>
-  </mat-toolbar>
-
-  <div class="search-form-container">
-    <form [formGroup]="searchForm" class="search-form">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Pesquisar filmes</mat-label>
-        <input
-          matInput
-          formControlName="searchQuery"
-          appSearchValidator
-          (input)="onSearchChange($event.target.value)"
-          placeholder="Digite o nome do filme (mínimo 3 caracteres, apenas letras e números)"
-        />
-        @if (searchForm.get('searchQuery')?.hasError('minLength')) {
-          <mat-error>
-            Mínimo 3 caracteres
-          </mat-error>
-        }
-        @if (searchForm.get('searchQuery')?.hasError('alphanumeric')) {
-          <mat-error>
-            Apenas letras e números permitidos
-          </mat-error>
-        }
-      </mat-form-field>
-    </form>
+  <div class="search-header">
+    <h1>Discover Movies</h1>
+    <p class="subtitle">Search for your favorite movies</p>
   </div>
+
+  <mat-card class="search-card">
+    <mat-card-content>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Search movies</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            formControlName="searchQuery"
+            appSearchValidator
+            (input)="onSearchChange($event.target.value)"
+            placeholder="Type the movie name..."
+          />
+          @if (searchForm.get('searchQuery')?.hasError('minLength')) {
+            <mat-error>Minimum 3 characters</mat-error>
+          }
+          @if (searchForm.get('searchQuery')?.hasError('alphanumeric')) {
+            <mat-error>Only letters and numbers allowed</mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  @if (!hasSearched && !isLoading) {
+    <div class="welcome-state">
+      <mat-card class="welcome-card">
+        <mat-card-content>
+          <mat-icon class="welcome-icon">explore</mat-icon>
+          <h2>Ready to discover new movies?</h2>
+          <p>Use the search bar above to start searching for your favorite movies</p>
+          <div class="welcome-actions">
+            <button mat-raised-button color="primary" (click)="createNewCollection()">
+              <mat-icon>add_circle_outline</mat-icon>
+              Create Collection
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
 
   @if (isLoading) {
     <div class="loading-container">
       <mat-spinner diameter="50"></mat-spinner>
+      <p class="loading-text">Loading movies...</p>
     </div>
   }
 
-  @if (!isLoading && hasSearched && movies.length > 0) {
-    <div class="movies-section">
-      <div class="selection-toolbar">
-        @if (selectedMovies.size > 0) {
-          <span class="selected-count">
-            {{ selectedMovies.size }} filme(s) selecionado(s)
-          </span>
-        }
-        <button
-          mat-raised-button
-          color="accent"
-          [disabled]="selectedMovies.size === 0"
-          (click)="addSelectedToCollection()"
-          class="add-to-collection-btn"
-        >
-          Adicionar à Coleção
-        </button>
-      </div>
+  @if (!isLoading && hasSearched) {
+    <div class="results-section">
+      @if (movies.length === 0) {
+        <mat-card class="empty-state">
+          <mat-card-content>
+            <mat-icon class="empty-icon">movie_filter</mat-icon>
+            <h2>No movies found</h2>
+            <p>Try searching with another keyword</p>
+          </mat-card-content>
+        </mat-card>
+      }
 
-      <div class="movies-grid">
-        @for (movie of movies; track movie.id) {
-          <mat-card class="movie-card">
-            <div class="movie-checkbox">
-              <mat-checkbox
-                [checked]="isMovieSelected(movie.id)"
-                (change)="toggleMovieSelection(movie.id)"
-              ></mat-checkbox>
-            </div>
+      @if (movies.length > 0) {
+        <div class="results-header">
+          <h2>Search Results</h2>
+          <div class="results-toolbar">
+            @if (selectedMovies.size > 0) {
+              <mat-chip-set aria-label="Selected movies\">
+                <mat-chip selected>
+                  <mat-icon matChipAvatar>check_circle</mat-icon>
+                  {{ selectedMovies.size }} selected
+                </mat-chip>
+              </mat-chip-set>
+            }
+            <button
+              mat-raised-button
+              color="accent"
+              [disabled]="selectedMovies.size === 0"
+              (click)="addSelectedToCollection()"
+            >
+              <mat-icon>add_to_photos</mat-icon>
+              Add to Collection
+            </button>
+          </div>
+        </div>
 
-            <div class="movie-poster-container">
-              @if (movie.poster_path) {
-                <img
-                  [src]="getImageUrl(movie.poster_path)"
-                  [alt]="movie.title"
-                  class="movie-poster"
-                />
-              }
-              @if (!movie.poster_path) {
-                <div class="no-poster">
-                  Sem imagem disponível
+        <div class="movies-grid">
+          @for (movie of movies; track movie.id) {
+            <mat-card class="movie-card">
+              <mat-card-header>
+                <div class="movie-selection">
+                  <mat-checkbox
+                    [checked]="isMovieSelected(movie.id)"
+                    (change)="toggleMovieSelection(movie.id)"
+                  ></mat-checkbox>
                 </div>
-              }
-            </div>
+              </mat-card-header>
 
-            <mat-card-content class="movie-info">
-              <h3 class="movie-title">{{ movie.title }}</h3>
-              <div class="vote-average">
-                <span class="vote-badge">⭐ {{ movie.vote_average.toFixed(1) }}</span>
+              <div class="movie-image">
+                @if (movie.poster_path) {
+                  <img [src]="getImageUrl(movie.poster_path)" [alt]="movie.title" />
+                }
+                @if (!movie.poster_path) {
+                  <div class="no-image">
+                    <mat-icon>image_not_supported</mat-icon>
+                  </div>
+                }
+                <div class="rating-badge">⭐ {{ movie.vote_average.toFixed(1) }}</div>
               </div>
-            </mat-card-content>
 
-            <mat-card-actions>
-              <button mat-stroked-button color="primary" (click)="openMovieDetails(movie.id)">
-                Detalhes
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        }
-      </div>
+              <mat-card-content class="movie-content">
+                <h3>{{ movie.title }}</h3>
+                <p class="release-date">{{ movie.release_date | date: 'yyyy' }}</p>
+              </mat-card-content>
 
-      <mat-paginator
-        [length]="totalResults"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="[5, 10, 20]"
-        (page)="onPageChange($event)"
-        aria-label="Selecionar página de filmes"
-        class="paginator"
-      ></mat-paginator>
-    </div>
-  }
+              <mat-card-actions>
+                <button mat-stroked-button color="primary" (click)="openMovieDetails(movie.id)" class="full-width">
+                  <mat-icon>info</mat-icon>
+                  Details
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
 
-  @if (!isLoading && hasSearched && movies.length === 0) {
-    <div class="empty-state">
-      <p>Nenhum filme encontrado para sua pesquisa.</p>
-    </div>
-  }
-
-  @if (!hasSearched && !isLoading) {
-    <div class="welcome-state">
-      <p>Comece a buscar por filmes digitando o nome na barra de pesquisa acima.</p>
+        <div class="paginator-container">
+          <mat-paginator
+            [length]="totalResults"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)"
+            aria-label="Select movies page"
+          ></mat-paginator>
+        </div>
+      }
     </div>
   }
 </div>

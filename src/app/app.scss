@@ -1,0 +1,84 @@
+$primary-color: #3f51b5;
+$accent-color: #ff4081;
+
+// Reset e estilos globais
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: #fafafa;
+  color: #212121;
+}
+
+// Estilos para scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 4px;
+
+  &:hover {
+    background: #9e9e9e;
+  }
+}
+
+// Material customization
+mat-toolbar {
+  position: relative;
+  z-index: 100;
+}
+
+mat-card {
+  border-radius: 12px;
+}
+
+// Entry animations
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Apply animation to cards and main elements
+mat-card,
+.collection-card,
+.movie-card {
+  animation: slideIn 0.3s ease-out;
+}
+
+// Estilos para FormFields
+mat-form-field {
+  width: 100%;
+}
+
+// Button styles
+button {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+// Melhorar accessibility
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

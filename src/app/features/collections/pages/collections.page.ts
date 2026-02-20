@@ -4,11 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CollectionsService } from '../services/collections.service';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import type { Collection } from '../../../shared/models';
 
 @Component({
@@ -22,9 +20,7 @@ import type { Collection } from '../../../shared/models';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    NavbarComponent
+    MatTooltipModule
   ]
 })
 export class CollectionsPage implements OnInit {
@@ -56,7 +52,7 @@ export class CollectionsPage implements OnInit {
 
   deleteCollection(id: string, event: Event): void {
     event.stopPropagation();
-    if (confirm('Tem certeza que deseja deletar esta coleção?')) {
+    if (confirm('Are you sure you want to delete this collection?')) {
       this.collectionsService.delete(id);
       this.loadCollections();
     }

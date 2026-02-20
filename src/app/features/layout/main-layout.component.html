@@ -1,2 +1,43 @@
-<app-navbar></app-navbar>
-<router-outlet />
+<mat-toolbar color="primary" class="app-toolbar">
+  <button mat-icon-button (click)="toggleSidenav()" class="toggle-sidenav">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="toolbar-spacer"></span>
+
+  <div class="toolbar-title">
+    <mat-icon class="app-icon">local_movies</mat-icon>
+    <span>Movie Vault</span>
+  </div>
+
+  <span class="toolbar-spacer"></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [opened]="sidenavOpen()" class="sidenav">
+    <mat-nav-list>
+      <mat-list-item routerLink="/" (click)="closeSidenav()" routerLinkActive="active">
+        <mat-icon matListItemIcon>search</mat-icon>
+        <span matListItemTitle>Search Movies</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/collections" (click)="closeSidenav()" routerLinkActive="active">
+        <mat-icon matListItemIcon>collections_bookmark</mat-icon>
+        <span matListItemTitle>My Collections</span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item>
+        <span matListItemTitle class="subtitle">Application to organize</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle class="subtitle">your favorite movies</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>

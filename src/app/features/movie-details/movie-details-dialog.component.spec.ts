@@ -135,21 +135,21 @@ describe('MovieDetailsDialogComponent', () => {
       expect(text).toBe('English, Portuguese');
     });
 
-    it('should return "Não disponível" for null languages', () => {
+    it('should return "Not available" for null languages', () => {
       const movieWithoutLanguages: MovieDetails = { ...mockMovieDetails, spoken_languages: [] };
       component.movieDetails.set(movieWithoutLanguages);
 
       const text = component.getLanguagesText();
 
-      expect(text).toBe('Não disponível');
+      expect(text).toBe('Not available');
     });
 
-    it('should return "Não disponível" when movie details is null', () => {
+    it('should return "Not available" when movie details is null', () => {
       component.movieDetails.set(null);
 
       const text = component.getLanguagesText();
 
-      expect(text).toBe('Não disponível');
+      expect(text).toBe('Not available');
     });
   });
 
@@ -160,16 +160,16 @@ describe('MovieDetailsDialogComponent', () => {
       expect(formatted).toContain('1.000.000');
     });
 
-    it('should return "Não disponível" for undefined value', () => {
+    it('should return "Not available" for undefined value', () => {
       const formatted = component.formatCurrency(undefined);
 
-      expect(formatted).toBe('Não disponível');
+      expect(formatted).toBe('Not available');
     });
 
-    it('should return "Não disponível" for 0 value', () => {
+    it('should return "Not available" for 0 value', () => {
       const formatted = component.formatCurrency(0);
 
-      expect(formatted).toBe('Não disponível');
+      expect(formatted).toBe('Not available');
     });
   });
 
@@ -204,7 +204,7 @@ describe('MovieDetailsDialogComponent', () => {
 
       component.submitRating();
 
-      expect(component.ratingError()).toBe('Por favor, insira uma avaliação válida entre 0.5 e 10.');
+      expect(component.ratingError()).toBe('Please enter a valid rating between 0.5 and 10.');
     });
 
     it('should not submit with invalid rating > 10', () => {
@@ -212,7 +212,7 @@ describe('MovieDetailsDialogComponent', () => {
 
       component.submitRating();
 
-      expect(component.ratingError()).toBe('Por favor, insira uma avaliação válida entre 0.5 e 10.');
+      expect(component.ratingError()).toBe('Please enter a valid rating between 0.5 and 10.');
       expect(movieApiService.getSessionId).not.toHaveBeenCalled();
     });
 
@@ -235,7 +235,7 @@ describe('MovieDetailsDialogComponent', () => {
       component.submitRating();
 
       setTimeout(() => {
-        expect(component.ratingError()).toContain('Erro ao obter sessão');
+        expect(component.ratingError()).toContain('Error obtaining session');
         expect(component.isSubmittingRating()).toBe(false);
         done();
       }, 100);
@@ -288,7 +288,7 @@ describe('MovieDetailsDialogComponent', () => {
       component.submitRating();
 
       setTimeout(() => {
-        expect(component.ratingError()).toContain('Erro ao enviar avaliação');
+        expect(component.ratingError()).toContain('Error submitting rating');
         expect(component.isSubmittingRating()).toBe(false);
         done();
       }, 100);

@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Adicionar a Coleção</h2>
+<h2 mat-dialog-title>Add to Collection</h2>
 
 <mat-dialog-content>
   <p class="movie-count">
-    Adicionando {{ data.movies.length }} filme(s) à(s) seguinte(s) coleção(ões):
+    Adding {{ data.movies.length }} movie(s) to the following collection(s):
   </p>
 
   <mat-list>
@@ -14,7 +14,7 @@
         >
           <div class="collection-info">
             <span class="collection-title">{{ collection.title }}</span>
-            <span class="collection-count">({{ collection.movies?.length || 0 }} filmes)</span>
+            <span class="collection-count">({{ collection.movies?.length || 0 }} movies)</span>
           </div>
         </mat-checkbox>
       </mat-list-item>
@@ -24,24 +24,24 @@
   @if (collections.length === 0) {
     <div class="no-collections-container">
       <p class="no-collections">
-        Nenhuma coleção criada ainda. Crie uma coleção antes de adicionar filmes.
+        No collection created yet. Create a collection before adding movies.
       </p>
       <button mat-raised-button color="primary" (click)="createNewCollection()" class="create-btn">
         <mat-icon>add</mat-icon>
-        Criar Nova Coleção
+        Create New Collection
       </button>
     </div>
   }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
   <button
     mat-raised-button
     color="primary"
     [disabled]="selectedCollectionIds.size === 0 || collections.length === 0"
     (click)="addToSelectedCollections()"
   >
-    Adicionar
+    Add
   </button>
 </mat-dialog-actions>

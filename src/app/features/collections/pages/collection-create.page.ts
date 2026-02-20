@@ -60,7 +60,7 @@ export class CollectionCreatePage {
       const newCollection = this.collectionsService.create(title, description);
       this.router.navigate(['/collections', newCollection.id]);
     } catch (error) {
-      console.error('Erro ao criar coleção:', error);
+      console.error('Error creating collection:', error);
       this.isSubmitting = false;
     }
   }
