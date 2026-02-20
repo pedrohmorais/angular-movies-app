@@ -1,15 +1,11 @@
 import { Component, Inject, OnInit, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 
 import { CollectionsService } from '../services/collections.service';
 import type { Collection, Movie } from '../../../shared/models';
+import { MATERIAL_MODULES } from '../../../shared/material/material.module';
 
 @Component({
   selector: 'app-add-to-collection-dialog',
@@ -17,13 +13,9 @@ import type { Collection, Movie } from '../../../shared/models';
   templateUrl: './add-to-collection-dialog.component.html',
   styleUrl: './add-to-collection-dialog.component.scss',
   imports: [
-    CommonModule,
-    FormsModule,
+    ...MATERIAL_MODULES,
     MatDialogModule,
-    MatButtonModule,
-    MatListModule,
-    MatCheckboxModule,
-    MatIconModule
+    FormsModule
   ]
 })
 export class AddToCollectionDialogComponent implements OnInit {

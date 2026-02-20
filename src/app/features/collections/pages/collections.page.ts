@@ -1,13 +1,10 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CollectionsService } from '../services/collections.service';
 import type { Collection } from '../../../shared/models';
+import { MATERIAL_MODULES } from '../../../shared/material/material.module';
 
 @Component({
   selector: 'app-collections-page',
@@ -15,12 +12,9 @@ import type { Collection } from '../../../shared/models';
   templateUrl: './collections.page.html',
   styleUrl: './collections.page.scss',
   imports: [
-    CommonModule,
+    ...MATERIAL_MODULES,
     RouterModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule
+    DatePipe
   ]
 })
 export class CollectionsPage implements OnInit {

@@ -39,7 +39,7 @@ export class CollectionsService {
     const collection = collections.find(c => c.id === collectionId);
 
     if (collection) {
-      // Evitar duplicatas
+      // Avoid duplicates
       const movieExists = collection.movies?.some((m: Movie) => m.id === movie.id);
       if (!movieExists) {
         if (!collection.movies) {

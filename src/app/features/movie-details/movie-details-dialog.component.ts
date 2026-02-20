@@ -1,15 +1,12 @@
 import { Component, OnInit, OnDestroy, inject, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { MovieApiService } from '../../core/services/movie-api.service';
 import { MovieDetails } from '../../shared/models';
+import { MATERIAL_MODULES } from '../../shared/material/material.module';
 
 interface DialogData {
   movieId: number;
@@ -22,11 +19,8 @@ interface DialogData {
   styleUrls: ['./movie-details-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    MatButtonModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatIconModule
+    ...MATERIAL_MODULES,
+    DatePipe
   ]
 })
 export class MovieDetailsDialogComponent implements OnInit, OnDestroy {

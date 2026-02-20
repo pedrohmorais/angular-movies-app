@@ -1,18 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -21,6 +12,7 @@ import { SearchValidatorDirective } from '../../shared/directives/search-validat
 import { Movie } from '../../shared/models';
 import { MovieDetailsDialogComponent } from '../movie-details/movie-details-dialog.component';
 import { AddToCollectionDialogComponent } from '../collections/components/add-to-collection-dialog.component';
+import { MATERIAL_MODULES } from '../../shared/material/material.module';
 
 @Component({
   selector: 'app-search-page',
@@ -28,20 +20,10 @@ import { AddToCollectionDialogComponent } from '../collections/components/add-to
   templateUrl: './search.page.html',
   styleUrl: './search.page.scss',
   imports: [
-    CommonModule,
+    ...MATERIAL_MODULES,
     ReactiveFormsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatIconModule,
-    SearchValidatorDirective
+    SearchValidatorDirective,
+    DatePipe
   ]
 })
 export class SearchPage implements OnInit, OnDestroy {

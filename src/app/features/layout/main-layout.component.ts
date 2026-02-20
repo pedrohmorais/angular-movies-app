@@ -1,12 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-import { MatDividerModule } from '@angular/material/divider';
+import { MATERIAL_MODULES } from '../../shared/material/material.module';
 
 @Component({
   selector: 'app-main-layout',
@@ -15,14 +9,8 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './main-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    RouterModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-    MatDividerModule
+    ...MATERIAL_MODULES,
+    RouterModule
   ]
 })
 export class MainLayoutComponent {
