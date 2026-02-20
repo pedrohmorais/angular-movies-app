@@ -1,0 +1,20 @@
+# Cypress dependencies and cache
+node_modules/
+cypress/downloads/
+cypress/screenshots/
+cypress/videos/
+
+# Environment files
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
